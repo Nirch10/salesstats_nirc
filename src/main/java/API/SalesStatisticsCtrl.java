@@ -23,11 +23,9 @@ public class SalesStatisticsCtrl {
 
     @PostMapping("/sales")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addTransaction(@RequestBody String salesAmount) throws Exception {
+    public void addTransaction(@RequestBody String salesAmount) {
         //TODO: Push To Redis + Handle Expections
-        boolean addedSuccessfully = true;
-        if(addedSuccessfully == false)
-            throw new Exception();
+        salesStatisticsDal.add(Integer.valueOf(salesAmount));
     }
 
     @GetMapping("/statistics")
