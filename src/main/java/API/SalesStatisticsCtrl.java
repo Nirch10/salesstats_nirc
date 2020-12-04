@@ -1,10 +1,14 @@
 package API;
 
 import Lib.ISalesStatisticsDal;
+import Lib.InMemSalesStatisticsDal;
 import Lib.TransactionsStatistics;
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,15 +21,19 @@ public class SalesStatisticsCtrl {
     private ISalesStatisticsDal salesStatisticsDal;
 
 
-    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
-        this.salesStatisticsDal = salesStatisticsDal;
+    @Autowired
+    public SalesStatisticsCtrl(){
+        this.salesStatisticsDal = new InMemSalesStatisticsDal(60);
     }
+//    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
+//        this.salesStatisticsDal = salesStatisticsDal;
+//    }
 
-    @PostMapping("/sales")
+    @PostMapping(value = "/sales", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addTransaction(@RequestBody String salesAmount) {
+    public void addTransaction(@RequestBody MultiValueMap<String, String> salesAmount) {
         //TODO: Push To Redis + Handle Expections
-        salesStatisticsDal.add(Integer.valueOf(salesAmount));
+        salesStatisticsDal.add(Integer.valueOf(salesAmount.getFirst("sales_amount")));
     }
 
     @GetMapping("/statistics")
@@ -38,7 +46,7 @@ public class SalesStatisticsCtrl {
         return ts;
     }
 
-    @GetMapping("/statistics")
+    @GetMapping("/statistics2")
     @ResponseBody
     public ResponseEntity<Object> getStatistics2(){
         Collection<Integer> statistics = salesStatisticsDal.getStatistics();
