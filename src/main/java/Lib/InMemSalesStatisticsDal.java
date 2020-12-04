@@ -1,5 +1,6 @@
 package Lib;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 
     private LoadingCache<String, Integer> timeLimitedList;
+//    private Cache<String , Integer> cache;
 
 
     public InMemSalesStatisticsDal(long timeLimitInSeconds){
@@ -24,6 +26,7 @@ public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
                             }
                         }
                 );
+//        cache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.SECONDS).build();
     }
 
     @Override
