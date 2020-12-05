@@ -14,7 +14,7 @@ import java.util.Collections;
 @ComponentScan({"API", "Lib","com.ebaytask.salesstatistics.config"})
 public class SalesstatisticsApplication {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         final EbayTaskConfigWrapper ebayTaskConfigWrapper = new EbayTaskConfigWrapper();
         SpringApplication app = new SpringApplication(SalesstatisticsApplication.class);
         app.setDefaultProperties(Collections
