@@ -3,6 +3,7 @@ package API;
 import Lib.ISalesStatisticsDal;
 import Lib.InMemSalesStatisticsDal;
 import Lib.TransactionsStatistics;
+import com.ebaytask.salesstatistics.config.EbayTaskConfigWrapper;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,9 @@ public class SalesStatisticsCtrl {
 
 
     @Autowired
-    public SalesStatisticsCtrl(){
-        this.salesStatisticsDal = new InMemSalesStatisticsDal(60);
+    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
+        this.salesStatisticsDal = salesStatisticsDal;
     }
-//    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
-//        this.salesStatisticsDal = salesStatisticsDal;
-//    }
 
     @PostMapping(value = "/sales", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -41,9 +39,13 @@ public class SalesStatisticsCtrl {
     @ResponseBody
     public TransactionsStatistics getStatistics(){
         Collection<Integer> statistics = salesStatisticsDal.getStatistics();
-        long statisticsSum = sumStatistics(statistics);
-        TransactionsStatistics ts = new TransactionsStatistics(statisticsSum, statisticsSum / statistics.size());
-        return ts;
+//        long statisticsSum = sumStatistics(statistics);
+//        double statisticsAvg = 0.0;
+//        if(statistics.size() > 0)
+//            statisticsAvg = statisticsSum / statistics.size();
+//        TransactionsStatistics ts = new TransactionsStatistics(statisticsSum, statisticsAvg);
+//        return ts;
+        return calcStatistics(statistics);
     }
 
     @GetMapping("/statistics2")
@@ -59,6 +61,14 @@ public class SalesStatisticsCtrl {
         return sum;
     }
 
+    private TransactionsStatistics calcStatistics(Collection<Integer> statistics){
+        int count = (int) statistics.stream().mapToLong(statistic -> statistic).count();
+        long sum = statistics.stream().mapToLong(statistic -> statistic).sum();
+        if(count == 0)
+            return new TransactionsStatistics(sum, count);
+        return new TransactionsStatistics(sum, sum/ count);
+    }
+
     private List<JSONObject> parseStatistics(long statisticsSum, double statisticsMean){
         List<JSONObject> responseData = new ArrayList<>();
         JSONObject entity = new JSONObject();
@@ -66,6 +76,10 @@ public class SalesStatisticsCtrl {
         entity.put("average_amount_per_order", String.valueOf(statisticsMean));
         responseData.add(entity);
         return responseData;
+    }
+
+    public static void main(String[] args){
+
     }
 
 }
