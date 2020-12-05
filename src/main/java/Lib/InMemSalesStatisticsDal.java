@@ -3,51 +3,35 @@ package Lib;
 import com.ebaytask.salesstatistics.config.EbayTaskConfig;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.MultimapBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
-import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 
-    private LoadingCache<String, Integer> timeLimitedList;
     private Cache<String , Integer> cache;
+//    private Random uuidRandom;
+
+
 
     @Autowired
     public InMemSalesStatisticsDal(EbayTaskConfig config){
-        timeLimitedList = CacheBuilder.newBuilder()
-                .expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS)
-                .build(
-                        new CacheLoader<String, Integer>() {
-                            @Override
-                            public Integer load(String s) throws Exception {
-                                return null;
-                            }
-                        }
-                );
         cache = CacheBuilder.newBuilder().expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS).build();
+//        uuidRandom = new Random();
     }
-
 
     @Override
     public void add(int saleAmount) {
-
         cache.put(String.valueOf(UUID.randomUUID()), saleAmount);
-//        timeLimitedList.put(String.valueOf(UUID.randomUUID()), saleAmount);
+//        cache.put(String.valueOf(new UUID(uuidRandom.nextLong(), uuidRandom.nextLong())), saleAmount);
     }
 
     @Override
     public Collection<Integer> getStatistics() {
-
-
         return cache.asMap().values();
-//        return timeLimitedList.asMap().values();
     }
 }
