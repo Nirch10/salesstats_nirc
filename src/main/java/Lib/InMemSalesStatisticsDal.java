@@ -5,10 +5,12 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.MultimapBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +34,7 @@ public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
                 );
         cache = CacheBuilder.newBuilder().expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS).build();
     }
+
 
     @Override
     public void add(int saleAmount) {
