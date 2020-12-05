@@ -1,6 +1,5 @@
 package Lib;
 
-import com.ebaytask.salesstatistics.config.EbayTaskConfig;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,14 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 
+
+    //Using google.com.guava in order to be able to remove item after X seconds
     private Cache<String , Integer> cache;
 //    private Random uuidRandom;
 
-
-
     @Autowired
-    public InMemSalesStatisticsDal(EbayTaskConfig config){
-        cache = CacheBuilder.newBuilder().expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS).build();
+    public InMemSalesStatisticsDal(Integer secondsToSaveTransaction){
+        cache = CacheBuilder.newBuilder().expireAfterWrite(secondsToSaveTransaction, TimeUnit.SECONDS).build();
 //        uuidRandom = new Random();
     }
 

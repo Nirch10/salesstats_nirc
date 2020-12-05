@@ -2,14 +2,11 @@ package com.ebaytask.salesstatistics.config;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,11 +18,12 @@ import java.nio.file.Paths;
 public class EbayTaskConfigWrapper {
 
     public static EbayTaskConfig ebayTaskConfig;
+    private final String EBAY_TASK_CONFIG_PATH = "src/main/resources/EbayTaskConfig.json";
 
     public EbayTaskConfigWrapper(){
         if(ebayTaskConfig == null) {
             try {
-                ebayTaskConfig = Deserialize(getConfigPath());
+                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -37,11 +35,16 @@ public class EbayTaskConfigWrapper {
         }
     }
 
+    /**
+     * SpringBoot init bean for Initialization of ISalesStatisticsDal
+     * @return Integer representing time to save each transaction in seconds (From config file)
+     */
     @Bean
-    public EbayTaskConfig ebayTaskConfig(){
-       if(ebayTaskConfig == null)
-           return new EbayTaskConfig();
-       return ebayTaskConfig;
+    public Integer SecondsToSaveTransaction() throws IOException {
+        if(ebayTaskConfig == null){
+                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
+        }
+        return ebayTaskConfig.getSecondsToSaveTransaction();
     }
 
     public static EbayTaskConfig Deserialize(String configPath) throws IOException {
@@ -51,9 +54,9 @@ public class EbayTaskConfigWrapper {
         return ebayTaskConfig;
     }
 
-    private String getConfigPath() throws SecurityException {
-        String path = new File("src/main/resources/EbayTaskConfig.json")
-                .getAbsolutePath();
+
+    private String getConfigAbsolutePath() throws SecurityException {
+        String path = new File(EBAY_TASK_CONFIG_PATH).getAbsolutePath();
         return path;
     }
 }

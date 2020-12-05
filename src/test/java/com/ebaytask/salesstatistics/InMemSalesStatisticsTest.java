@@ -22,7 +22,7 @@ public class InMemSalesStatisticsTest {
     @BeforeAll
     static void testSetUp() throws IOException {
         configWrapper = new EbayTaskConfigWrapper();
-        statisticsDal = new InMemSalesStatisticsDal(EbayTaskConfigWrapper.ebayTaskConfig);
+        statisticsDal = new InMemSalesStatisticsDal(EbayTaskConfigWrapper.ebayTaskConfig.getSecondsToSaveTransaction());
     }
 
     @Test

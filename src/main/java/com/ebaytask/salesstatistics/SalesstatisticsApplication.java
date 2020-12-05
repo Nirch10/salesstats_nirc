@@ -18,7 +18,7 @@ public class SalesstatisticsApplication {
         final EbayTaskConfigWrapper ebayTaskConfigWrapper = new EbayTaskConfigWrapper();
         SpringApplication app = new SpringApplication(SalesstatisticsApplication.class);
         app.setDefaultProperties(Collections
-                .singletonMap("server.port", ebayTaskConfigWrapper.ebayTaskConfig().getAppHttpPort()));
+                .singletonMap("server.port", ebayTaskConfigWrapper.ebayTaskConfig.getAppHttpPort()));
         app.run(args);
     }
 
