@@ -21,13 +21,14 @@ public class SalesStatisticsCtrl {
     private ISalesStatisticsDal salesStatisticsDal;
 
 
-    @Autowired
+//    @Autowired
     public SalesStatisticsCtrl(){
-        this.salesStatisticsDal = new InMemSalesStatisticsDal(60);
+        this.salesStatisticsDal = new InMemSalesStatisticsDal();
     }
-//    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
-//        this.salesStatisticsDal = salesStatisticsDal;
-//    }
+    @Autowired
+    public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
+        this.salesStatisticsDal = salesStatisticsDal;
+    }
 
     @PostMapping(value = "/sales", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)

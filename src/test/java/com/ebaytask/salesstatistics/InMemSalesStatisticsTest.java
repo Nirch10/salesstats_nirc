@@ -14,7 +14,7 @@ public class InMemSalesStatisticsTest {
     static ISalesStatisticsDal statisticsDal;
     @BeforeAll
     static void testSetUp(){
-        statisticsDal = new InMemSalesStatisticsDal(10);
+        statisticsDal = new InMemSalesStatisticsDal();
     }
 
     @Test

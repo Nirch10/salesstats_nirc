@@ -4,20 +4,23 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 
     private LoadingCache<String, Integer> timeLimitedList;
 //    private Cache<String , Integer> cache;
 
-
-    public InMemSalesStatisticsDal(long timeLimitInSeconds){
+    @Autowired
+    public InMemSalesStatisticsDal(){
         timeLimitedList = CacheBuilder.newBuilder()
-                .expireAfterWrite(timeLimitInSeconds, TimeUnit.SECONDS)
+                .expireAfterWrite(60, TimeUnit.SECONDS)
                 .build(
                         new CacheLoader<String, Integer>() {
                             @Override
