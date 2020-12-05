@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +26,8 @@ public class EbayTaskConfigWrapper {
         if(ebayTaskConfig == null)
         {
             try {
-                ebayTaskConfig = Deserialize("/Users/sapirchodorov/Downloads/SalesStatistics/src/main/java/com/ebaytask/salesstatistics/config/EbayTaskConfig.json");
+                ebayTaskConfig = Deserialize(getConfigPath());
+//                ebayTaskConfig = Deserialize("/Users/sapirchodorov/Downloads/SalesStatistics/src/main/java/com/ebaytask/salesstatistics/config/EbayTaskConfig.json");
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new NullPointerException();
@@ -58,5 +60,13 @@ public class EbayTaskConfigWrapper {
        if(ebayTaskConfig == null)
            return new EbayTaskConfig();
        return ebayTaskConfig;
+    }
+
+    private String getConfigPath(){
+        String basePath = new File("").getAbsolutePath();
+        System.out.println(basePath);
+        String path = new File("src/main/resources/EbayTaskConfig.json")
+                .getAbsolutePath();
+        return path;
     }
 }
