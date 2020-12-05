@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.util.Collections;
 
 @SpringBootApplication
-@ComponentScan({"API", "Lib","com.ebaytask.salesstatistics.config", "com.ebaytask.salesstatistics.lib"})
+@ComponentScan({"API", "Lib","com.ebaytask.salesstatistics.config"})
 public class SalesstatisticsApplication {
 
     public static void main(String[] args) throws IOException {
+        final EbayTaskConfigWrapper ebayTaskConfigWrapper = new EbayTaskConfigWrapper();
         SpringApplication app = new SpringApplication(SalesstatisticsApplication.class);
         app.setDefaultProperties(Collections
-                .singletonMap("server.port", "8083"));
+                .singletonMap("server.port", ebayTaskConfigWrapper.ebayTaskConfig().getAppHttpPort()));
         app.run(args);
     }
 

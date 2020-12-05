@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 
     private LoadingCache<String, Integer> timeLimitedList;
-//    private Cache<String , Integer> cache;
+    private Cache<String , Integer> cache;
 
     @Autowired
     public InMemSalesStatisticsDal(EbayTaskConfig config){
@@ -30,16 +30,21 @@ public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
                             }
                         }
                 );
-//        cache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.SECONDS).build();
+        cache = CacheBuilder.newBuilder().expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS).build();
     }
 
     @Override
     public void add(int saleAmount) {
-        timeLimitedList.put(String.valueOf(UUID.randomUUID()), saleAmount);
+
+        cache.put(String.valueOf(UUID.randomUUID()), saleAmount);
+//        timeLimitedList.put(String.valueOf(UUID.randomUUID()), saleAmount);
     }
 
     @Override
     public Collection<Integer> getStatistics() {
-        return timeLimitedList.asMap().values();
+
+
+        return cache.asMap().values();
+//        return timeLimitedList.asMap().values();
     }
 }
