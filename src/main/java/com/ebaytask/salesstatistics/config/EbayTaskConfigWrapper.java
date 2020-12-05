@@ -1,13 +1,21 @@
 package com.ebaytask.salesstatistics.config;
 
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+@Configuration
+@ComponentScan("Lib")
 public class EbayTaskConfigWrapper {
+
 
     public static EbayTaskConfig ebayTaskConfig;
 
@@ -28,5 +36,15 @@ public class EbayTaskConfigWrapper {
         Gson jsonParser = new Gson();
         ebayTaskConfig = jsonParser.fromJson(content, EbayTaskConfig.class);
         return ebayTaskConfig;
+    }
+
+    @Bean
+    public EbayTaskConfig ebayTaskConfig(){
+        try {
+            return Deserialize("/Users/sapirchodorov/Downloads/SalesStatistics/src/main/java/com/ebaytask/salesstatistics/config/EbayTaskConfig.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

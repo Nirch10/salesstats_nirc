@@ -1,5 +1,6 @@
 package Lib;
 
+import com.ebaytask.salesstatistics.config.EbayTaskConfig;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -18,9 +19,9 @@ public class InMemSalesStatisticsDal implements ISalesStatisticsDal {
 //    private Cache<String , Integer> cache;
 
     @Autowired
-    public InMemSalesStatisticsDal(){
+    public InMemSalesStatisticsDal(EbayTaskConfig config){
         timeLimitedList = CacheBuilder.newBuilder()
-                .expireAfterWrite(60, TimeUnit.SECONDS)
+                .expireAfterWrite(config.getSecondsToSaveTransaction(), TimeUnit.SECONDS)
                 .build(
                         new CacheLoader<String, Integer>() {
                             @Override

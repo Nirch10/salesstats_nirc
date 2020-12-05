@@ -2,6 +2,7 @@ package com.ebaytask.salesstatistics;
 
 import Lib.ISalesStatisticsDal;
 import Lib.InMemSalesStatisticsDal;
+import com.ebaytask.salesstatistics.config.EbayTaskConfigWrapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ public class InMemSalesStatisticsTest {
     static ISalesStatisticsDal statisticsDal;
     @BeforeAll
     static void testSetUp(){
-        statisticsDal = new InMemSalesStatisticsDal();
+        statisticsDal = new InMemSalesStatisticsDal(EbayTaskConfigWrapper.ebayTaskConfig);
     }
 
     @Test

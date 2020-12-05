@@ -3,6 +3,7 @@ package API;
 import Lib.ISalesStatisticsDal;
 import Lib.InMemSalesStatisticsDal;
 import Lib.TransactionsStatistics;
+import com.ebaytask.salesstatistics.config.EbayTaskConfigWrapper;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,6 @@ public class SalesStatisticsCtrl {
     private ISalesStatisticsDal salesStatisticsDal;
 
 
-//    @Autowired
-    public SalesStatisticsCtrl(){
-        this.salesStatisticsDal = new InMemSalesStatisticsDal();
-    }
     @Autowired
     public SalesStatisticsCtrl(ISalesStatisticsDal salesStatisticsDal){
         this.salesStatisticsDal = salesStatisticsDal;
@@ -67,6 +64,10 @@ public class SalesStatisticsCtrl {
         entity.put("average_amount_per_order", String.valueOf(statisticsMean));
         responseData.add(entity);
         return responseData;
+    }
+
+    public static void main(String[] args){
+
     }
 
 }
