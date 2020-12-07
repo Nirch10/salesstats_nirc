@@ -30,12 +30,12 @@ public class InMemSalesStatisticsDalTest {
     }
 
     @Test
-    void addToGuava(){
+    void testAddToCache(){
         int i = 0;
         while (i < 20) {
             statisticsDal.add(100 * i);
             statisticsDal.add(100 * i);
-            showStats();
+            testGetAllInCache();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class InMemSalesStatisticsDalTest {
     }
 
     @Test
-    void showStats(){
+    void testGetAllInCache(){
             final Collection<Integer> statistics = statisticsDal.getStatistics();
             statistics.stream().forEach(x -> System.out.println(x));
             System.out.println("---------------");
