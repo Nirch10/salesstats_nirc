@@ -28,12 +28,17 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 
 1. open the project
 2. open file -> project reference
+
 	2.1. Go to Project and set your sdk to java 8 (with Product Language -> SDK default)
+	
 	2.2. Go to library add a new maven library -> 
 		*"com.google.code.gson:gson:2.8.6"
 		*"com.google.guava:guava:18.0"
 		*"junit-4.10-extended:1.0.4"
+		
 3. Go to project settings/preferences ->
+
 	3.1 Go to plugins and install if not already install lombock (Requires the IDE to restart)
+	
 4. Run Application from SalesStatisticsAPplication main class 
 
