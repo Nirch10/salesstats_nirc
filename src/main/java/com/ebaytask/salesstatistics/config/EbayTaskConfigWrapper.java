@@ -2,13 +2,11 @@ package com.ebaytask.salesstatistics.config;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,35 +17,36 @@ import java.nio.file.Paths;
 @Getter
 public class EbayTaskConfigWrapper {
 
-
     public static EbayTaskConfig ebayTaskConfig;
+    private final String EBAY_TASK_CONFIG_PATH = "src/main/resources/EbayTaskConfig.json";
 
     public EbayTaskConfigWrapper(){
-        if(ebayTaskConfig == null)
-        {
+        if(ebayTaskConfig == null) {
             try {
-                ebayTaskConfig = Deserialize(getConfigPath());
-//                ebayTaskConfig = Deserialize("/Users/sapirchodorov/Downloads/SalesStatistics/src/main/java/com/ebaytask/salesstatistics/config/EbayTaskConfig.json");
-            } catch (IOException e) {
+                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
+            }
+            catch (IOException e) {
                 e.printStackTrace();
                 throw new NullPointerException();
             }
-
+            catch (SecurityException e){
+                throw new SecurityException();
+            }
         }
     }
 
-    public static void Serialize(EbayTaskConfig ebayTaskConfig, String filePath) throws IOException {
-        Gson jsonParser = new Gson();
-        EbayTaskConfigWrapper.ebayTaskConfig = ebayTaskConfig;
-        String json = jsonParser.toJson(EbayTaskConfigWrapper.ebayTaskConfig);
-        Serialize(json, filePath);
+    /**
+     * SpringBoot init bean for Initialization of ISalesStatisticsDal
+     * @return Integer representing time to save each transaction in seconds (From config file)
+     */
+    @Bean
+    public Integer SecondsToSaveTransaction() throws IOException {
+        if(ebayTaskConfig == null){
+                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
+        }
+        return ebayTaskConfig.getSecondsToSaveTransaction();
     }
 
-    private static void Serialize(String data, String filePath) throws IOException {
-        FileWriter fw = new FileWriter(filePath);
-        fw.write(data);
-        fw.close();
-    }
     public static EbayTaskConfig Deserialize(String configPath) throws IOException {
         String content = new String(Files.readAllBytes(Paths.get(configPath)));
         Gson jsonParser = new Gson();
@@ -55,18 +54,9 @@ public class EbayTaskConfigWrapper {
         return ebayTaskConfig;
     }
 
-    @Bean
-    public EbayTaskConfig ebayTaskConfig(){
-       if(ebayTaskConfig == null)
-           return new EbayTaskConfig();
-       return ebayTaskConfig;
-    }
 
-    private String getConfigPath(){
-        String basePath = new File("").getAbsolutePath();
-        System.out.println(basePath);
-        String path = new File("src/main/resources/EbayTaskConfig.json")
-                .getAbsolutePath();
+    private String getConfigAbsolutePath() throws SecurityException {
+        String path = new File(EBAY_TASK_CONFIG_PATH).getAbsolutePath();
         return path;
     }
 }

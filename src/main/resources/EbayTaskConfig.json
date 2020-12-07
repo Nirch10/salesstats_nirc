@@ -1,4 +1,4 @@
 {
-  "AppHttpPort": 8083,
-  "SecondsToSaveTransaction": 5
+  "AppHttpPort": 2121,
+  "SecondsToSaveTransaction": 60
 }
