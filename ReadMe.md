@@ -15,19 +15,19 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 
 # How to run the project : 
 
-1. Clone the project from the git repository : "https://github.com/Nirch10/salesstats_nirc"
+1. Clone the project from the git repository : https://github.com/Nirch10/salesstats_nirc
 2. Make sure you are on "master" branch
 3. Make sure you configure the wanted properties in the : resources/EbayTaskConfig.json file
  	(RelativePath : /src//main/resources/EbayTaskConfig.json)
-4. Open the app in any IDE (I used inteliJ)
-5. Run the SalesStatisticsAPplication main class 
+4. Open the app in any IDE (I used IntelliJ)
+5. Run the SalesStatisticsApplication main class 
 6. The service now is up and running
 
 
 # How to make sure your application is working on IntelliJ:
 
-1. open the project
-2. open file -> project reference
+1. Open the project
+2. Open file -> project reference
 
 	2.1. Go to Project and set your sdk to java 8 (with Product Language -> SDK default)
 	
