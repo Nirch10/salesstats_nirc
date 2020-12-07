@@ -5,7 +5,7 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 
 # prerequisites
 
-*Java 8 (Or later version)
+*Java 8 (Or a later version)
 
 *External Java pakages the service uses :
 
