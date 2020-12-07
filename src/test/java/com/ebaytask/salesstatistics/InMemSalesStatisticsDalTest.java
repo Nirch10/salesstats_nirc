@@ -15,7 +15,7 @@ import java.util.Collection;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SalesstatisticsApplication.class)
 
-public class InMemSalesStatisticsTest {
+public class InMemSalesStatisticsDalTest {
 
     static ISalesStatisticsDal statisticsDal;
     static EbayTaskConfigWrapper configWrapper;
@@ -32,14 +32,7 @@ public class InMemSalesStatisticsTest {
     @Test
     void addToGuava(){
         int i = 0;
-        while (true) {
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
-            statisticsDal.add(100 * i);
+        while (i < 20) {
             statisticsDal.add(100 * i);
             statisticsDal.add(100 * i);
             showStats();
@@ -54,12 +47,9 @@ public class InMemSalesStatisticsTest {
 
     @Test
     void showStats(){
-        while(true) {
             final Collection<Integer> statistics = statisticsDal.getStatistics();
             statistics.stream().forEach(x -> System.out.println(x));
             System.out.println("---------------");
-
-        }
     }
 
 }
