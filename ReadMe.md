@@ -38,7 +38,7 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 		
 3. Go to project settings/preferences ->
 
-	3.1 Go to plugins and install if not already install lombock (Requires the IDE to restart)
+	3.1 Go to plugins and install if not already installed Lombock (Requires the IDE to restart)
 	
-4. Run Application from SalesStatisticsAPplication main class 
+4. Run application from SalesStatisticsApplication main class 
 
