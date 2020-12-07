@@ -3,7 +3,7 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 
 
 
-# prerequisites
+# Prerequisites
 
 *Java 8 (Or a later version)
 
@@ -13,7 +13,7 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 
 
 
-# How to run project : 
+# How to run the project : 
 
 1. Clone the project from the git repository : "https://github.com/Nirch10/salesstats_nirc"
 2. Make sure you are on "master" branch
