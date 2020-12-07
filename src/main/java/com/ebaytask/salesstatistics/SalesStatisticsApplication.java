@@ -8,12 +8,12 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.Collections;
 
 @SpringBootApplication
-@ComponentScan({"API", "Lib","com.ebaytask.salesstatistics.config"})
-public class SalesstatisticsApplication {
+@ComponentScan({"api", "lib","com.ebaytask.salesstatistics.config"})
+public class SalesStatisticsApplication {
 
     public static void main(String[] args){
         final EbayTaskConfigWrapper ebayTaskConfigWrapper = new EbayTaskConfigWrapper();
-        SpringApplication app = new SpringApplication(SalesstatisticsApplication.class);
+        SpringApplication app = new SpringApplication(SalesStatisticsApplication.class);
         app.setDefaultProperties(Collections
                 .singletonMap("server.port", ebayTaskConfigWrapper.ebayTaskConfig.getAppHttpPort()));
         app.run(args);

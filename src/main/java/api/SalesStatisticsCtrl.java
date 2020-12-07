@@ -1,17 +1,14 @@
-package API;
+package api;
 
-import Lib.ISalesStatisticsDal;
-import Lib.TransactionsStatistics;
+import lib.ISalesStatisticsDal;
+import lib.TransactionsStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.util.Collection;
-import java.util.logging.Logger;
 
 @RestController
 
@@ -42,6 +39,12 @@ public class SalesStatisticsCtrl {
         return calcStatistics(statistics);
     }
 
+
+    /**
+     * @param statistics  - collection of transactions amount
+     * @return a TransactionStatistics object which contains the total sum of the transactions,
+     * and the avg of amount per transaction
+     */
     private TransactionsStatistics calcStatistics(Collection<Integer> statistics){
         int count = (int) statistics.stream().mapToLong(statistic -> statistic).count();
         if(count == 0)

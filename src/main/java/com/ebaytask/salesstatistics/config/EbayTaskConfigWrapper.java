@@ -2,28 +2,25 @@ package com.ebaytask.salesstatistics.config;
 
 import com.google.gson.Gson;
 import lombok.Getter;
+import org.apache.logging.log4j.util.PropertiesUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 @Configuration
-@ComponentScan("Lib")
+@ComponentScan("lib")
 @Getter
 public class EbayTaskConfigWrapper {
 
     public static EbayTaskConfig ebayTaskConfig;
-    private final String EBAY_TASK_CONFIG_PATH = "src/main/resources/EbayTaskConfig.json";
 
     public EbayTaskConfigWrapper(){
         if(ebayTaskConfig == null) {
             try {
-                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
+                ebayTaskConfig = Deserialize();
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -42,21 +39,30 @@ public class EbayTaskConfigWrapper {
     @Bean
     public Integer SecondsToSaveTransaction() throws IOException {
         if(ebayTaskConfig == null){
-                ebayTaskConfig = Deserialize(getConfigAbsolutePath());
+                ebayTaskConfig = Deserialize();
         }
         return ebayTaskConfig.getSecondsToSaveTransaction();
     }
 
-    public static EbayTaskConfig Deserialize(String configPath) throws IOException {
-        String content = new String(Files.readAllBytes(Paths.get(configPath)));
+    public static EbayTaskConfig Deserialize() throws IOException {
+        final ClassLoader classLoader = PropertiesUtil.class.getClassLoader();
+        final InputStream inputStream = classLoader.getResourceAsStream("EbayTaskConfig.json");
+        String content = parseStream(inputStream);
         Gson jsonParser = new Gson();
         ebayTaskConfig = jsonParser.fromJson(content, EbayTaskConfig.class);
         return ebayTaskConfig;
     }
 
-
-    private String getConfigAbsolutePath() throws SecurityException {
-        String path = new File(EBAY_TASK_CONFIG_PATH).getAbsolutePath();
-        return path;
+    private static String parseStream(InputStream inputStream) throws IOException {
+        final int bufferSize = 1024;
+        final char[] buffer = new char[bufferSize];
+        final StringBuilder out = new StringBuilder();
+        Reader in = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        int charsRead;
+        while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
+            out.append(buffer, 0, charsRead);
+        }
+        return out.toString();
     }
+
 }
