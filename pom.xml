@@ -11,7 +11,7 @@
     <groupId>com.ebaytask</groupId>
     <artifactId>salesstatistics</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>salesstatistics</name>
+    <name>salesstatistics_nirc</name>
     <description>Ebay Task - Nir Chodorov</description>
 
     <properties>
