@@ -6,8 +6,10 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 # prerequisites
 
 *Java 8 (Or later version)
-*External Java pakages the service uses 
-[SpringFramework, google.common.guava, com.google.gson.Gson, Junit4, Lombock]
+
+*External Java pakages the service uses :
+
+	[SpringFramework, google.common.guava, com.google.gson.Gson, Junit4, Lombock]
 
 
 
