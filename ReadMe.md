@@ -24,7 +24,7 @@ Rest Microservice which allows to add a new sales amount, and retreive statistic
 6. The service now is up and running
 
 
-# How to make sure your application is working on InteliJ:
+# How to make sure your application is working on IntelliJ:
 
 1. open the project
 2. open file -> project reference
